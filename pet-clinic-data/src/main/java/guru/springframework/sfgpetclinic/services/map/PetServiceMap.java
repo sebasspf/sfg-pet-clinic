@@ -8,7 +8,7 @@ import guru.springframework.sfgpetclinic.model.Pet;
 import guru.springframework.sfgpetclinic.services.PetService;
 
 @Service
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService{
+public class PetServiceMap extends AbstractMapService<Pet> implements PetService{
 
 	
 	@Override
@@ -23,7 +23,7 @@ public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetS
 	
 	@Override
 	public Pet save(Pet object) {
-		return super.save(object.getId(), object);
+		return super.save(object);
 	}
 
 	@Override
