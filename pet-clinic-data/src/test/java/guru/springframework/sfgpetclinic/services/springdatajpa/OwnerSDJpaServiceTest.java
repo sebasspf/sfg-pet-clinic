@@ -5,8 +5,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.repositories.OwnerRepository;
+
+
 
 class OwnerSDJpaServiceTest {
 	
@@ -17,36 +31,67 @@ class OwnerSDJpaServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		MockitoAnnotations.openMocks(this);
+		ownerService = new OwnerSDJpaService(ownerRepository);
 	}
 
 	@Test
 	void testFindByLastName() {
-		fail("Not yet implemented");
+		Owner returnOwner = Owner.builder().lastName("Perez").build();
+		
+		when(ownerRepository.findByLastName(any())).thenReturn(returnOwner);
+		
+		Owner owner = ownerService.findByLastName("Perez");
+		assertNotNull(owner);
+		verify(ownerRepository, times(1)).findByLastName(any());
 	}
-
+	
 	@Test
 	void testFindAll() {
-		fail("Not yet implemented");
+		Owner owner = Owner.builder().lastName("Perez").build();
+		Set<Owner> returnedOwners = new HashSet<Owner>();
+		returnedOwners.add(owner);
+		
+		when(ownerRepository.findAll()).thenReturn(returnedOwners);
+		
+		Set<Owner> owners = ownerService.findAll();
+		assertEquals(1, owners.size());
+		verify(ownerRepository, times(1)).findAll();
 	}
 
 	@Test
 	void testFindById() {
-		fail("Not yet implemented");
+		Owner returnedOwner = Owner.builder().lastName("Perez").build();
+		Optional<Owner> returnedOptional = Optional.of(returnedOwner);
+		when(ownerRepository.findById(anyLong())).thenReturn(returnedOptional);
+		
+		Owner owner = ownerService.findById(1L);
+		assertNotNull(owner);
+		verify(ownerRepository, times(1)).findById(eq(1L));
 	}
 
 	@Test
 	void testSave() {
-		fail("Not yet implemented");
+		Owner returnedOwner = Owner.builder().lastName("Perez").build();
+		when(ownerRepository.save(any())).thenReturn(returnedOwner);
+		
+		Owner savedOwner = ownerService.save(returnedOwner);
+		assertNotNull(savedOwner);
+		verify(ownerRepository, times(1)).save(eq(returnedOwner));
 	}
 
 	@Test
 	void testDelete() {
-		fail("Not yet implemented");
+		Owner owner = Owner.builder().lastName("Perez").build();
+		
+		ownerService.delete(owner);
+		verify(ownerRepository, times(1)).delete(eq(owner));
 	}
 
 	@Test
 	void testDeleteById() {
-		fail("Not yet implemented");
+		ownerService.deleteById(1L);
+		verify(ownerRepository, times(1)).deleteById(1l);
 	}
 
 }
