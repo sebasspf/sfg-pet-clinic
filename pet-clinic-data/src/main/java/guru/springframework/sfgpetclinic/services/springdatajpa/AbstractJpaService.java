@@ -29,6 +29,7 @@ public class AbstractJpaService<T extends BaseEntity, R extends CrudRepository<T
 		return repository.findById(id).orElse(null);
 	}
 
+	
 	@Override
 	public T save(T object) {
 		return repository.save(object);
