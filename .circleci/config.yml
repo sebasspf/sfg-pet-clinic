@@ -31,4 +31,3 @@ workflows:
   sample: 
     jobs:
       - build-and-test
-© 2021 GitHub, Inc.
