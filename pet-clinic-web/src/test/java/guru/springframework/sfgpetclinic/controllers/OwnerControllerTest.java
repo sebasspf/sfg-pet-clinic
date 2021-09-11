@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.services.OwnerService;
@@ -63,6 +64,15 @@ class OwnerControllerTest {
 			.andExpect(view().name("notimplemented"));
 		
 		verifyNoInteractions(ownerService);
+	}
+	
+	@Test
+	void testDisplayOwner() throws Exception {
+		when(ownerService.findById(anyLong())).thenReturn(Owner.builder().lastName("Perez").build());
+		mockMvc.perform(get("/owners/123"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("owners/ownerDetails"))
+			.andExpect(model().attributeExists("owner"));
 	}
 
 }
