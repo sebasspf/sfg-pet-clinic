@@ -1,6 +1,7 @@
 package guru.springframework.sfgpetclinic.services.map;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -40,6 +41,12 @@ public class OwnerServiceMap extends AbstractMapService<Owner> implements OwnerS
 			});
 		}
 		return super.save(owner);
+	}
+
+	@Override
+	public List<Owner> findAllByLastNameLike(String lastName) {
+		// TODO impl
+		return null;
 	}
 	
 	
